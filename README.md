@@ -13,9 +13,7 @@ not an addition.
 
 Grab the APK from the [latest release](https://github.com/cristifcp/Solboard/releases/latest).
 
-- Installs alongside HeliBoard and other keyboards: it has its own package id
-  (`com.cristifcp.keyboard`), so nothing has to be uninstalled.
-- Requires Android 5.0 or newer.
+Requires Android 5.0 or newer.
 
 To get updates without the keyboard checking the network (which it cannot do),
 use [Obtainium](https://github.com/ImranR98/Obtainium) and point it at this
