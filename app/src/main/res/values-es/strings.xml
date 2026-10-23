@@ -421,8 +421,6 @@
     <string name="subtype_khipro_bn">%s (Khipro)</string>
     <string name="layout_emoji_bottom_row_with_action" tools:keep="@string/layout_emoji_bottom_row_with_action">Sección inferior de emoticonos con tecla de acción</string>
     <string name="layout_clip_bottom_row_with_action" tools:keep="@string/layout_clip_bottom_row_with_action">Sección inferior de portapapeles con tecla de acción</string>
-    <string name="about_wiki_link">Ir a la Wiki</string>
-    <string name="about_wiki_link_description">¡La Wiki puede ser mejorada por cualquier usuario de GitHub!</string>
     <string name="space_swipe_hide_keyboard_entry">Ocultar el teclado</string>
     <string name="landscape">Horizontal</string>
     <string name="toolbar_mode_suggestion_strip" tools:keep="@string/toolbar_mode_suggestion_strip">Solo sugerencias</string>

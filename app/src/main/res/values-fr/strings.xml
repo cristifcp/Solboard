@@ -433,8 +433,6 @@ Nouveau dictionnaire:
     <string name="space_swipe_hide_keyboard_entry">Masquer le clavier</string>
     <string name="suggest_punctuation">Suggestions de ponctuation</string>
     <string name="suggest_punctuation_summary">Afficher la ponctuation lorsqu\'aucune autre suggestion n\'est disponible</string>
-    <string name="about_wiki_link_description">Le Wiki peut être amélioré par n\'importe quel utilisateur de GitHub !</string>
-    <string name="about_wiki_link">Accéder au Wiki</string>
     <string name="save_subtype_per_app">Mémoriser la langue par application</string>
     <string name="subtype_khipro_bn">%s (Khipro)</string>
     <string name="clipboard_history_pinned_first">Afficher les éléments épinglés en haut</string>

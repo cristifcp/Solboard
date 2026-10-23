@@ -419,8 +419,6 @@
     <string name="get_colors_message">Du kan finne og dele farger i %s.</string>
     <string name="get_layouts_message">Du kan finne og dele tastaturoppsett i %s.</string>
     <string name="discussion_section_link">diskusjonsseksjon</string>
-    <string name="about_wiki_link">Gå til wiki</string>
-    <string name="about_wiki_link_description">Wikien kan forbedres av alle GitHub-brukere!</string>
     <string name="settings_screen_toolbar">Verktøylinje</string>
     <string name="label_enter_key" tools:keep="@string/label_enter_key">Enter</string>
     <string name="label_tab_key" tools:keep="@string/label_tab_key">Tab</string>

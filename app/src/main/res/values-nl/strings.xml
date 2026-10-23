@@ -437,8 +437,6 @@
     <string name="space_swipe_hide_keyboard_entry">Toetsenbord verbergen</string>
     <string name="suggest_punctuation">Interpunctie-suggesties</string>
     <string name="suggest_punctuation_summary">Toon interpunctie wanneer er geen andere suggesties beschikbaar zijn</string>
-    <string name="about_wiki_link">Ga naar Wiki</string>
-    <string name="about_wiki_link_description">De Wiki kan door elke GitHub-gebruiker worden verbeterd!</string>
     <string name="gesture_data_privacy">Privacy</string>
     <string name="search_field_placeholder">Zoeken</string>
     <string name="gesture_data_info">Waar gaat dit over?</string>

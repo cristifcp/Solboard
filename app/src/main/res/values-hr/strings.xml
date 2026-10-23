@@ -389,8 +389,6 @@
     <string name="settings_screen_about">O aplikaciji</string>
     <string name="version">Verzija</string>
     <string name="about_github_link">Pogledaj na GitHubu</string>
-    <string name="about_wiki_link">Idi u Wiki</string>
-    <string name="about_wiki_link_description">Wiki može poboljšati bilo koji korisnik GitHuba!</string>
     <string name="save_log">Spremi zapisnik</string>
     <string name="license">Licencije otvorenog koda</string>
     <string name="gnu_gpl">GNU General Public License v3.0</string>

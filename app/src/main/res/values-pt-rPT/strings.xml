@@ -410,8 +410,6 @@
     <string name="toolbar_mode_hidden">Oculto</string>
     <string name="prefs_emoji_skin_tone">Cor de pele padrão para os emojis</string>
     <string name="prefs_emoji_skin_tone_neutral">Neutra</string>
-    <string name="about_wiki_link">Ir para a Wiki</string>
-    <string name="about_wiki_link_description">Qualquer pessoa pode melhorar a wiki no Github!</string>
     <string name="landscape">Horizontal</string>
     <string name="suggest_emojis">Sujerir emojis</string>
     <string name="use_apps_dict">Procurar nomes de apps instaladas</string>

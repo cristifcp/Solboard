@@ -435,8 +435,6 @@
     <string name="suggest_emojis_summary">Usar dicionario de emoji nas suxestións normais</string>
     <string name="suggest_punctuation">Suxestións de puntuación</string>
     <string name="suggest_punctuation_summary">Mostra a puntuación cando non hai outras suxestións dispoñibles</string>
-    <string name="about_wiki_link">Ir á Wiki</string>
-    <string name="about_wiki_link_description">Calquera usuaria de GitHub pode colaborar coa Wiki!</string>
     <string name="space_swipe_hide_keyboard_entry">Ocultar teclado</string>
     <string name="clipboard_history_pinned_first">Mostrar arriba os elementos fixados</string>
     <string name="inline_emoji_search">Busca de emojis ao escribir</string>

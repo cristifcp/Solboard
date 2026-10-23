@@ -816,9 +816,9 @@ New dictionary:
     <!-- github repo link for about screen -->
     <string name="about_github_link">View on GitHub</string>
     <!-- link to the wiki for about screen -->
-    <string name="about_wiki_link_upstream">HeliBoard wiki</string>
+    <string name="about_wiki_link_upstream" translatable="false">HeliBoard wiki</string>
     <!-- description for wiki link -->
-    <string name="about_wiki_link_description_upstream">Upstream documentation. Solboard keeps HeliBoard\'s behaviour apart from the changes listed above.</string>
+    <string name="about_wiki_link_description_upstream" translatable="false">Upstream documentation. Solboard keeps HeliBoard\'s behaviour apart from the changes listed above.</string>
     <!-- links to community stuff -->
     <string name="about_community_links">Community links</string>
     <!-- description for about_community_links -->

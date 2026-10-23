@@ -428,8 +428,6 @@
     <string name="space_swipe_hide_keyboard_entry">Tastatur verstecken</string>
     <string name="suggest_punctuation">Satzzeichen-Vorschläge</string>
     <string name="suggest_punctuation_summary">Zeige Satzzeichen, wenn keine anderen Vorschläge verfügbar sind</string>
-    <string name="about_wiki_link_description">Das Wiki kann von jedem GitHub-Nutzer verbessert werden!</string>
-    <string name="about_wiki_link">Zum Wiki gehen</string>
     <string name="inline_emoji_search">Inline-Emoji-Suche</string>
     <string name="inline_emoji_search_summary">Emojis werden nur vorgeschlagen, wenn ein Wort direkt auf einen Doppelpunkt folgt</string>
     <string name="emoji_dictionary_required">Ein Emoji-Wörterbuch wird für diese Funktion benötigt. Wörterbücher im .dict-Format können %s heruntergeladen werden.</string>

@@ -31,6 +31,13 @@ jobs:
       - name: Build debug
         run: ./gradlew assembleDebug --no-daemon --stacktrace
 
+      # assembleDebug does not run lintVitalRelease, so a resource error that
+      # only bites the release build (for example a translation whose default
+      # key was renamed) would stay invisible until a tag was pushed. This is
+      # the cheap way to see it on every push instead.
+      - name: Release lint
+        run: ./gradlew :app:lintVitalRelease --no-daemon --stacktrace
+
       - name: Upload the APK
         uses: actions/upload-artifact@v4
         with:

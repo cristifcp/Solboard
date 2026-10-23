@@ -437,8 +437,6 @@
     <string name="space_swipe_hide_keyboard_entry">Ocultar teclado</string>
     <string name="suggest_punctuation">Sugestões de pontuação</string>
     <string name="suggest_punctuation_summary">Mostrar pontuação quando não há outras sugestões</string>
-    <string name="about_wiki_link">Ir para a Wiki</string>
-    <string name="about_wiki_link_description">A wiki pode ser melhorada por qualquer usuário do GitHub!</string>
     <string name="save_subtype_per_app">Lembrar idioma por app</string>
     <string name="clipboard_history_pinned_first">Mostrar itens fixados no topo</string>
     <string name="subtype_khipro_bn">%s (Khipro)</string>

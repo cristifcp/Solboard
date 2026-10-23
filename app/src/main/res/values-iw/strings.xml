@@ -427,8 +427,6 @@
     <string name="space_swipe_hide_keyboard_entry">הסתרת המקלדת</string>
     <string name="suggest_punctuation">הצעות פיסוק</string>
     <string name="suggest_punctuation_summary">הצגת פיסוק כאשר אין הצעות זמינות אחרות</string>
-    <string name="about_wiki_link">מעבר ל-Wiki</string>
-    <string name="about_wiki_link_description">כל משתמש GitHub יכול לשפר את הוויקי!</string>
     <string name="subtype_khipro_bn">%s (כיפרו)</string>
     <string name="save_subtype_per_app">שיוך שפה ליישום</string>
     <string name="clipboard_history_pinned_first">הצגת פריטים נעוצים תחילה</string>

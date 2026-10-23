@@ -429,8 +429,6 @@
     <string name="landscape">Liggande</string>
     <string name="suggest_emojis_summary">Använd emojiordbok i vanliga förslag</string>
     <string name="space_swipe_hide_keyboard_entry">Dölj tangentbordet</string>
-    <string name="about_wiki_link">Gå till wikin</string>
-    <string name="about_wiki_link_description">Wikin kan förbättras av alla GitHub-användare!</string>
     <string name="save_subtype_per_app">Kom ihåg språk per app</string>
     <string name="subtype_khipro_bn">%s (Khipro)</string>
     <string name="inline_emoji_search">Infogad emojisökning</string>

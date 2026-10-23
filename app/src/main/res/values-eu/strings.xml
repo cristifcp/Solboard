@@ -436,8 +436,6 @@
     <string name="space_swipe_hide_keyboard_entry">Ezkutatu teklatua</string>
     <string name="suggest_punctuation">Puntuazio iradokizunak</string>
     <string name="suggest_punctuation_summary">Erakutsi puntuazioa beste iradokizunik ez dagoenean</string>
-    <string name="about_wiki_link">Joan Wikira</string>
-    <string name="about_wiki_link_description">Edozein erabiltzailek hobetu dezake Wikia!</string>
     <string name="popup_order_and_hint_source">Popup teklen ordena eta iturria</string>
     <string name="inline_emoji_search">Sareko emojien bilaketa</string>
     <string name="inline_emoji_search_summary">Iradoki emojiak bakarrik hitz baten aurretik bi puntu daudenean</string>

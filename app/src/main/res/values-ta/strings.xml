@@ -387,8 +387,6 @@
     <string name="settings_screen_about">பற்றி</string>
     <string name="version">பதிப்பு</string>
     <string name="about_github_link">GitHub இல் காண்க</string>
-    <string name="about_wiki_link">விக்கிக்குச் செல்லவும்</string>
-    <string name="about_wiki_link_description">விக்கியை எந்த அறிவிலிமையம் பயனரும் மேம்படுத்தலாம்!</string>
     <string name="save_log">பதிவை சேமிக்கவும்</string>
     <string name="license">திறந்த மூல உரிமம்</string>
     <string name="gnu_gpl">குனு பொதுமக்கள் பொது உரிமம் v3.0</string>

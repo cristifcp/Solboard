@@ -437,8 +437,6 @@
     <string name="suggest_punctuation">اقتراحات علامات الترقيم</string>
     <string name="suggest_punctuation_summary">أظهر علامات الترقيم عندما لا تتوفر اقتراحات أخرى</string>
     <string name="space_swipe_hide_keyboard_entry">أخفِ لوحة مفاتيح</string>
-    <string name="about_wiki_link">اذهب إلى Github</string>
-    <string name="about_wiki_link_description">يمكن تحسين الويكي من خلال أي مستخدم Github!</string>
     <string name="save_subtype_per_app">تذكر اللغة لكل تطبيق</string>
     <string name="subtype_khipro_bn">%s (خيبرو)</string>
     <string name="clipboard_history_pinned_first">أظهر العناصر المثبتة في الأعلى</string>

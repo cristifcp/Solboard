@@ -426,8 +426,6 @@
     <string name="get_colors_message">Ви можете знаходити та ділитися темами в %s .</string>
     <string name="get_layouts_message">Ви можете знайти та поділитися макетами клавіатури в %s .</string>
     <string name="discussion_section_link">обговорення</string>
-    <string name="about_wiki_link">Переглянути Вікі</string>
-    <string name="about_wiki_link_description">Вікі може бути покращена будь-яким користувачем GitHub!</string>
     <string name="space_swipe_hide_keyboard_entry">Приховати клавіатуру</string>
     <string name="space_swipe_touchpad_mode_entry">Режим сенсорної панелі</string>
     <string name="touchpad_sensitivity">Чутливість сенсорної панелі</string>
