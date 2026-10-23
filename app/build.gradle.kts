@@ -64,7 +64,7 @@ android {
         applicationId = "com.cristifcp.keyboard"
         minSdk = 21
         targetSdk = 37
-        versionCode = 4307
+        versionCode = 4308
         // Upstream's version plus our build number: "4.3-beta1.63". Update tools
         // compare versionName, not versionCode, and a shared "4.3-beta1" would
         // never look newer than the build it replaces.
