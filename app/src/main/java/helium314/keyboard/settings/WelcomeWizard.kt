@@ -9,35 +9,38 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -45,7 +48,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import helium314.keyboard.latin.R
 import helium314.keyboard.latin.utils.JniUtils
 import helium314.keyboard.latin.utils.Theme
@@ -55,6 +57,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/**
+ * The first run: enable the keyboard, switch to it, done.
+ *
+ * Three steps that the user performs outside this screen, so the screen's job
+ * is to say exactly which one is next and to be obviously tappable. It follows
+ * the app theme rather than the fixed setup colours it used to carry, which
+ * looked pasted-on next to the rest of the settings.
+ */
 @Composable
 fun WelcomeWizard(
     close: () -> Unit,
@@ -79,168 +89,213 @@ fun WelcomeWizard(
             }
     }
     val useWideLayout = isWideScreen()
-    val stepBackgroundColor = Color(ContextCompat.getColor(ctx, R.color.setup_step_background))
-    val textColor = Color(ContextCompat.getColor(ctx, R.color.setup_text_action))
-    val textColorDim = textColor.copy(alpha = 0.5f)
-    val titleColor = Color(ContextCompat.getColor(ctx, R.color.setup_text_title))
     val appName = stringResource(ctx.applicationInfo.labelRes)
-    @Composable fun bigText() {
-        val resource = if (step == 0) R.string.setup_welcome_title else R.string.setup_steps_title
-        Column(Modifier.padding(bottom = 36.dp)) {
-            Text(
-                stringResource(resource, appName),
-                style = MaterialTheme.typography.displayMedium,
-                textAlign = TextAlign.Center,
-                color = titleColor,
-            )
-            if (JniUtils.sHaveGestureLib)
-                Text(
-                    stringResource(R.string.setup_welcome_additional_description),
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.End,
-                    color = titleColor,
-                    modifier = Modifier.fillMaxWidth()
-                )
-        }
-    }
-    @Composable
-    fun ColumnScope.Step(step: Int, title: String, instruction: String, actionText: String, icon: Painter, action: () -> Unit) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text("1", color = if (step == 1) titleColor else textColorDim)
-            Text("2", color = if (step == 2) titleColor else textColorDim)
-            Text("3", color = if (step == 3) titleColor else textColorDim)
-        }
-        Column(Modifier
-            .background(color = stepBackgroundColor)
-            .padding(16.dp)
+
+    Surface(color = MaterialTheme.colorScheme.background) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp, vertical = 32.dp),
+            contentAlignment = Alignment.TopCenter
         ) {
-            Text(title)
-            Text(instruction, style = MaterialTheme.typography.bodyLarge.merge(color = textColor))
-        }
-        Spacer(Modifier.height(4.dp))
-        Row(
-            Modifier.clickable { action() }
-                .background(color = stepBackgroundColor)
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(icon, null, Modifier.padding(end = 6.dp).size(32.dp), tint = textColor)
-            Text(actionText, Modifier.weight(1f))
-        }
-    }
-    @Composable fun steps() {
-        if (step == 0)
-            Step0 { step = 1 }
-        else
-            Column {
-                val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                    step = determineStep()
+            if (useWideLayout)
+                Row(horizontalArrangement = Arrangement.spacedBy(40.dp)) {
+                    Box(Modifier.weight(0.42f)) { Heading(step, appName) }
+                    Box(Modifier.weight(0.58f)) { Steps(step, appName, imm, close, finish, { step = it }) }
                 }
-                if (step == 1) {
-                    Step(
-                        step,
-                        stringResource(R.string.setup_step1_title, appName),
-                        stringResource(R.string.setup_step1_instruction, appName),
-                        stringResource(R.string.setup_step1_action),
-                        painterResource(R.drawable.ic_setup_key)
-                    ) {
-                        val intent = Intent()
-                        intent.action = Settings.ACTION_INPUT_METHOD_SETTINGS
-                        intent.addCategory(Intent.CATEGORY_DEFAULT)
-                        launcher.launch(intent)
-                    }
-                } else if (step == 2) {
-                    Step(
-                        step,
-                        stringResource(R.string.setup_step2_title, appName),
-                        stringResource(R.string.setup_step2_instruction, appName),
-                        stringResource(R.string.setup_step2_action),
-                        painterResource(R.drawable.ic_setup_select),
-                        imm::showInputMethodPicker
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Row(
-                        Modifier.clickable { close() }
-                            .background(color = stepBackgroundColor)
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            painterResource(R.drawable.sym_keyboard_language_switch),
-                            null,
-                            Modifier.padding(end = 6.dp).size(32.dp),
-                            tint = textColor
-                        )
-                        Text(stringResource(R.string.setup_step3_action), Modifier.weight(1f))
-                    }
-                } else { // step 3
-                    Step(
-                        step,
-                        stringResource(R.string.setup_step3_title),
-                        stringResource(R.string.setup_step3_instruction, appName),
-                        stringResource(R.string.setup_step3_action),
-                        painterResource(R.drawable.sym_keyboard_language_switch),
-                        close
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Row(
-                        Modifier.clickable { finish() }
-                            .background(color = stepBackgroundColor)
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            painterResource(R.drawable.ic_setup_check),
-                            null,
-                            Modifier.padding(end = 6.dp).size(32.dp),
-                            tint = textColor
-                        )
-                        Text(stringResource(R.string.setup_finish_action), Modifier.weight(1f))
-                    }
+            else
+                Column(
+                    Modifier.widthIn(max = 520.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Heading(step, appName)
+                    Spacer(Modifier.height(28.dp))
+                    Steps(step, appName, imm, close, finish, { step = it })
                 }
-            }
-    }
-    Surface {
-        CompositionLocalProvider(
-            LocalContentColor provides textColor,
-            LocalTextStyle provides MaterialTheme.typography.titleLarge.merge(color = textColor),
-        ) {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(32.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                if (useWideLayout)
-                    Row {
-                        Box(Modifier.weight(0.4f)) {
-                            bigText()
-                        }
-                        Box(Modifier.weight(0.6f)) {
-                            steps()
-                        }
-                    }
-                else
-                    Column {
-                        bigText()
-                        steps()
-                    }
-            }
         }
     }
 }
 
 @Composable
-fun Step0(onClick: () -> Unit) {
+private fun Heading(step: Int, appName: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Image(painterResource(R.drawable.setup_welcome_image), null)
-        Row(Modifier.clickable { onClick() }
-            .padding(top = 4.dp, start = 4.dp, end = 4.dp)
-            //.background(color = MaterialTheme.colorScheme.primary)
-        ) {
-            Spacer(Modifier.weight(1f))
-            Text(
-                stringResource(R.string.setup_start_action),
-                modifier = Modifier.padding(horizontal = 16.dp)
+        if (step == 0) {
+            Image(
+                painterResource(R.drawable.setup_welcome_image),
+                contentDescription = null,
+                modifier = Modifier.heightIn(max = 220.dp)
             )
+            Spacer(Modifier.height(24.dp))
+        }
+        Text(
+            stringResource(
+                if (step == 0) R.string.setup_welcome_title else R.string.setup_steps_title,
+                appName
+            ),
+            style = MaterialTheme.typography.headlineMedium,
+            textAlign = TextAlign.Center,
+        )
+        if (step == 0 && JniUtils.sHaveGestureLib) {
+            Spacer(Modifier.height(6.dp))
+            Text(
+                stringResource(R.string.setup_welcome_additional_description),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
+
+@Composable
+private fun Steps(
+    step: Int,
+    appName: String,
+    imm: InputMethodManager,
+    close: () -> Unit,
+    finish: () -> Unit,
+    onStep: (Int) -> Unit,
+) {
+    if (step == 0) {
+        Button(
+            onClick = { onStep(1) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 52.dp)
+        ) {
+            Text(stringResource(R.string.setup_start_action))
+        }
+        return
+    }
+
+    Column {
+        val ctx = LocalContext.current
+        StepProgress(step)
+        Spacer(Modifier.height(20.dp))
+
+        val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            onStep(
+                when {
+                    !UncachedInputMethodManagerUtils.isThisImeEnabled(ctx, imm) -> 0
+                    !UncachedInputMethodManagerUtils.isThisImeCurrent(ctx, imm) -> 2
+                    else -> 3
+                }
+            )
+        }
+
+        when (step) {
+            1 -> StepCard(
+                icon = painterResource(R.drawable.ic_setup_key),
+                title = stringResource(R.string.setup_step1_title, appName),
+                instruction = stringResource(R.string.setup_step1_instruction, appName),
+                actionText = stringResource(R.string.setup_step1_action),
+            ) {
+                val intent = Intent()
+                intent.action = Settings.ACTION_INPUT_METHOD_SETTINGS
+                intent.addCategory(Intent.CATEGORY_DEFAULT)
+                launcher.launch(intent)
+            }
+            2 -> StepCard(
+                icon = painterResource(R.drawable.ic_setup_select),
+                title = stringResource(R.string.setup_step2_title, appName),
+                instruction = stringResource(R.string.setup_step2_instruction, appName),
+                actionText = stringResource(R.string.setup_step2_action),
+                secondaryText = stringResource(R.string.setup_step3_action),
+                onSecondary = close,
+            ) {
+                imm.showInputMethodPicker()
+            }
+            else -> StepCard(
+                icon = painterResource(R.drawable.sym_keyboard_language_switch),
+                title = stringResource(R.string.setup_step3_title),
+                instruction = stringResource(R.string.setup_step3_instruction, appName),
+                actionText = stringResource(R.string.setup_step3_action),
+                secondaryText = stringResource(R.string.setup_finish_action),
+                onSecondary = finish,
+            ) {
+                close()
+            }
+        }
+    }
+}
+
+/** Three bars: how much of the setup is behind the user. */
+@Composable
+private fun StepProgress(current: Int) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        repeat(3) { index ->
+            val done = index + 1 <= current
+            Box(
+                Modifier
+                    .weight(1f)
+                    .height(4.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(
+                        if (done) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.outlineVariant
+                    )
+            )
+        }
+    }
+}
+
+@Composable
+private fun StepCard(
+    icon: Painter,
+    title: String,
+    instruction: String,
+    actionText: String,
+    secondaryText: String? = null,
+    onSecondary: (() -> Unit)? = null,
+    action: () -> Unit,
+) {
+    Surface(
+        shape = RoundedCornerShape(24.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(Modifier.padding(20.dp)) {
+            Box(
+                Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.primaryContainer),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+            Spacer(Modifier.height(16.dp))
+            Text(title, style = MaterialTheme.typography.titleLarge)
+            Spacer(Modifier.height(6.dp))
+            Text(
+                instruction,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(Modifier.height(20.dp))
+            Button(
+                onClick = action,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 52.dp)
+            ) {
+                Text(actionText)
+            }
+            if (secondaryText != null && onSecondary != null) {
+                Spacer(Modifier.height(4.dp))
+                TextButton(
+                    onClick = onSecondary,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(secondaryText)
+                }
+            }
         }
     }
 }
@@ -250,20 +305,19 @@ fun Step0(onClick: () -> Unit) {
 private fun Preview() {
     Theme(previewDark) {
         Surface {
-            WelcomeWizard({}) {  }
+            WelcomeWizard({}) { }
         }
     }
 }
 
 @Preview(
-    // content cut off on real device, but not here... great?
     device = "spec:orientation=landscape,width=400dp,height=780dp"
 )
 @Composable
 private fun WidePreview() {
     Theme(previewDark) {
         Surface {
-            WelcomeWizard({}) {  }
+            WelcomeWizard({}) { }
         }
     }
 }
