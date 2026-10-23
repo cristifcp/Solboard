@@ -19,6 +19,12 @@ Fork first published: 2026-10-23.
 | Settings/issue link points at this fork instead of upstream | `app/.../latin/common/Constants.kt` (`GITHUB`) |
 | Clipboard label for a copied theme | `app/.../settings/screens/ColorsScreen.kt` |
 | Launcher icon | `mipmap-*/ic_launcher*.png`, `mipmap-anydpi-v26/*.xml`, `drawable-*/ic_launcher_{foreground,monochrome}.png`, `drawable-v24/ic_launcher_background.xml` — a wire keyboard, yellow on near-black: six outlined keys over a lit space bar, with one cyan chip. Adaptive, legacy and monochrome forms, each drawn at its own size. The adaptive art is inset to 46% of the canvas: the safe zone is a *circle* of 66%, and a square mark has to be the square inscribed in it, or a launcher's mask clips its corners. |
+| Keyboard themes | `app/.../keyboard/KeyboardTheme.kt`, `values/strings.xml` — **Neon Chrome** (cyberpunk yellow/cyan/magenta), **Chrome Paper** (its light counterpart), **Voltage** (violet/cyan) and **Toxic** (acid green). Four presets in the 10-colour `DefaultColors` shape upstream uses; no new style, drawable or preference. |
+| Defaults | `app/.../latin/settings/Defaults.kt` — night theme is Neon Chrome, and vibration on keypress is on. Both are one tap away in Settings; changing them is what makes a fresh install feel like this fork rather than upstream. |
+| About screen | `app/.../settings/screens/AboutScreen.kt`, `SettingsContainer.kt`, `Constants.kt` — a Solboard row stating that this is a modified HeliBoard under GPLv3 and linking to this file, the version row showing build number and commit, the wiki row labelled as upstream's, and the community row removed (this fork has no community to link to). |
+| Build identity | `app/build.gradle.kts` — `SOLBOARD_BUILD` and `SOLBOARD_COMMIT` are read from git at build time and shown in About, so a bug report names the exact build without anyone remembering to bump a counter. |
+| Continuous integration | `.github/workflows/ci.yml` — debug build on every push to `variant`. Upstream only builds on request, so without this a broken commit stays invisible until a release tag is pushed. |
+| Store metadata | `fastlane/` removed — it described HeliBoard (package `helium314.keyboard`, upstream screenshots and copy) and this fork publishes only to GitHub Releases. |
 | Content-provider authorities (`clipboard_provider_authority`, `gesture_data_provider_authority`) | `app/src/main/res/values/clip_provider.xml`, `.../gesture_data.xml`, and the `app/src/debug/res/values/` copies |
 
 The authorities deserve a note: they are plain strings carrying the upstream
@@ -37,6 +43,10 @@ upstream merge a conflict. The `applicationId` is the identity that matters.
 - Copyright headers and author credits — untouched, including upstream issue
   links in comments, which keep pointing at `HeliBorg/HeliBoard` on purpose.
 - Any behaviour, default, or setting not listed above.
+- No network code was added and no permission was requested. Solboard keeps the
+  defining property of upstream: no `INTERNET` permission, so nothing can leave
+  the device. Update checks are deliberately absent for that reason — use
+  [Obtainium](https://github.com/ImranR98/Obtainium) or the release page.
 
 ## Rebranding after an upstream merge
 

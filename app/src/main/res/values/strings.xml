@@ -687,6 +687,12 @@ New dictionary:
     <string name="delete">Delete</string>
     <!-- Text for application version -->
     <string name="version_text">Version %s</string>
+    <!-- Version row on the about screen: version, build number, short commit.
+         The build and commit are what make a bug report actionable. -->
+    <string name="version_text_build">Version %1$s · build %2$s (%3$s)</string>
+    <!-- Top row of the about screen: the fork notice GPLv3 5(a) asks for. -->
+    <string name="about_fork_title">Solboard</string>
+    <string name="about_fork_description">A modified version of HeliBoard, under the GNU GPL v3. Tap for the source and the list of changes.</string>
     <!-- User dictionary settings. Label to put before the shortcut field (once a shortcut is registered, the user can type the shortcut and get the word it points to in the suggestions). -->
     <string name="user_dict_settings_add_shortcut_option_name">Shortcut:</string>
     <!-- User dictionary settings. Label to put before the weight field -->
@@ -739,6 +745,9 @@ New dictionary:
     <string name="theme_name_black" tools:keep="@string/theme_name_black">Black</string>
     <!-- Theme name for Solboard's cyberpunk preset: neon on near-black -->
     <string name="theme_name_neon_chrome" tools:keep="@string/theme_name_neon_chrome">Neon Chrome</string>
+    <string name="theme_name_chrome_paper" tools:keep="@string/theme_name_chrome_paper">Chrome Paper</string>
+    <string name="theme_name_voltage" tools:keep="@string/theme_name_voltage">Voltage</string>
+    <string name="theme_name_toxic" tools:keep="@string/theme_name_toxic">Toxic</string>
     <!-- Theme name for dynamic colors light theme -->
     <string name="theme_name_dynamic" tools:keep="@string/theme_name_dynamic">Dynamic colors</string>
     <!-- Theme name for blue-gray theme -->
@@ -807,9 +816,9 @@ New dictionary:
     <!-- github repo link for about screen -->
     <string name="about_github_link">View on GitHub</string>
     <!-- link to the wiki for about screen -->
-    <string name="about_wiki_link">Go to Wiki</string>
+    <string name="about_wiki_link">HeliBoard wiki</string>
     <!-- description for wiki link -->
-    <string name="about_wiki_link_description">The Wiki can be improved by any GitHub user!</string>
+    <string name="about_wiki_link_description">Upstream documentation. Solboard keeps HeliBoard\'s behaviour apart from the changes listed above.</string>
     <!-- links to community stuff -->
     <string name="about_community_links">Community links</string>
     <!-- description for about_community_links -->

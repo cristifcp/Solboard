@@ -30,6 +30,20 @@ val hasReleaseKeystore =
         releaseKeyAlias != null && releaseKeyPassword != null &&
         rootProject.file(releaseStorePath).exists()
 
+/**
+ * Which build this is, for bug reports: the commit count and the commit itself.
+ * Read from git rather than from a hand-maintained constant, because a version
+ * someone forgets to bump is worse than no version at all.
+ */
+fun gitValue(vararg args: String): String = runCatching {
+    providers.exec { commandLine("git", *args) }.standardOutput.asText.get().trim()
+}.getOrElse { "unknown" }
+
+// Commit count, not a hand-kept counter: monotonic, unique per build, and it
+// also makes versionName sort correctly for update tools that compare strings.
+val solboardBuild = gitValue("rev-list", "--count", "HEAD")
+val solboardCommit = gitValue("rev-parse", "--short", "HEAD")
+
 android {
     compileSdk = 37
 
@@ -50,8 +64,13 @@ android {
         applicationId = "com.cristifcp.keyboard"
         minSdk = 21
         targetSdk = 37
-        versionCode = 4303
-        versionName = "4.3-beta1"
+        versionCode = 4304
+        // Upstream's version plus our build number: "4.3-beta1.63". Update tools
+        // compare versionName, not versionCode, and a shared "4.3-beta1" would
+        // never look newer than the build it replaces.
+        versionName = "4.3-beta1.$solboardBuild"
+        buildConfigField("String", "SOLBOARD_BUILD", "\"$solboardBuild\"")
+        buildConfigField("String", "SOLBOARD_COMMIT", "\"$solboardCommit\"")
         ndk {
             abiFilters.clear()
             abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))

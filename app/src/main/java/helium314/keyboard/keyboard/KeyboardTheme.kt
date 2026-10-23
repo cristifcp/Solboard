@@ -72,6 +72,15 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
          * game that inspired it - see MODIFICATIONS.md.
          */
         const val THEME_NEON_CHROME = "neon_chrome"
+
+        /** The light half of Neon Chrome, for people who use a light keyboard. */
+        const val THEME_CHROME_PAPER = "chrome_paper"
+
+        /** Deep violet with a cyan strip. */
+        const val THEME_VOLTAGE = "voltage"
+
+        /** Acid green on black. */
+        const val THEME_TOXIC = "toxic"
         fun getAvailableDefaultColors(prefs: SharedPreferences, isNight: Boolean) = listOfNotNull(
             if (!isNight) THEME_LIGHT else null, THEME_DARK,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) THEME_DYNAMIC else null,
@@ -79,6 +88,9 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
             THEME_DARKER,
             THEME_BLACK,
             THEME_NEON_CHROME,
+            THEME_VOLTAGE,
+            THEME_TOXIC,
+            if (!isNight) THEME_CHROME_PAPER else null,
             if (!isNight) THEME_BLUE_GRAY else null,
             if (!isNight) THEME_BROWN else null,
             THEME_CHOCOLATE,
@@ -199,6 +211,48 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
                     "#79D6E8".toColorInt(), // key hints
                     suggestionText = "#FCEE0A".toColorInt(),
                     gesture = "#FF2E97".toColorInt(),
+                    keyboardBackground = backgroundImage
+                )
+                THEME_CHROME_PAPER -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    "#FF2E97".toColorInt(), // accent
+                    "#F4F4EC".toColorInt(), // keyboard background
+                    "#FFFFFF".toColorInt(), // key background
+                    "#E7E7DC".toColorInt(), // functional keys
+                    "#FFFFFF".toColorInt(), // space bar
+                    "#12121A".toColorInt(), // key text
+                    "#6B6B75".toColorInt(), // key hints
+                    suggestionText = "#12121A".toColorInt(),
+                    gesture = "#FF2E97".toColorInt(),
+                    keyboardBackground = backgroundImage
+                )
+                THEME_VOLTAGE -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    "#7C4DFF".toColorInt(),
+                    "#0F0B1A".toColorInt(),
+                    "#1A1430".toColorInt(),
+                    "#150F26".toColorInt(),
+                    "#1A1430".toColorInt(),
+                    "#EDE7FF".toColorInt(),
+                    "#9E8FD0".toColorInt(),
+                    suggestionText = "#00E5FF".toColorInt(),
+                    gesture = "#7C4DFF".toColorInt(),
+                    keyboardBackground = backgroundImage
+                )
+                THEME_TOXIC -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    "#B6FF00".toColorInt(),
+                    "#0A0F0A".toColorInt(),
+                    "#16211A".toColorInt(),
+                    "#101A12".toColorInt(),
+                    "#16211A".toColorInt(),
+                    "#E8FFE0".toColorInt(),
+                    "#8FBF7F".toColorInt(),
+                    suggestionText = "#B6FF00".toColorInt(),
+                    gesture = "#B6FF00".toColorInt(),
                     keyboardBackground = backgroundImage
                 )
                 THEME_HOLO_WHITE -> DefaultColors(
