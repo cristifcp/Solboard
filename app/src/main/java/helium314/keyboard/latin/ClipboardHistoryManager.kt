@@ -71,6 +71,11 @@ class ClipboardHistoryManager(
     //  setting whether to store sensitive clip data?
     //  care about other clip items than first?
     private fun fetchPrimaryClip() {
+        // Incognito is a promise that nothing is remembered. A clip is remembered
+        // twice over - stored in history, and offered back later - so it has to
+        // follow the same rule as learning and emoji recents, which incognito
+        // already blocks.
+        if (latinIME.mSettings.current.mIncognitoModeEnabled) return
         if (tempPrimaryClip) return // avoid updating history
         val clipData = clipboardManager.primaryClip ?: return
         if (clipData.itemCount == 0) return
