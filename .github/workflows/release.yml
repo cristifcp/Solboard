@@ -67,16 +67,29 @@ jobs:
         run: |
           set -euo pipefail
           tag="${GITHUB_REF_NAME}"
-          # GPLv3: the release notes point at the source for this exact build.
-          cat > notes.md <<EOF
-          Solboard ${tag}
-
-          Source for this build: https://github.com/${GITHUB_REPOSITORY}/tree/${tag}
-          Licence: GNU GPL v3.0 (see LICENSE). Solboard is a fork of HeliBoard.
-
-          The APK is signed; updating over a previous Solboard build works. It will
-          not update over HeliBoard itself, which is signed with a different key.
-          EOF
+          # Notes are generated, not written by hand: a release that says what
+          # changed is the difference between a changelog and a changeless page.
+          prev=$(git tag --list 'v*-solboard*' --sort=-v:refname | grep -v -x "$tag" | head -n 1 || true)
+          {
+            echo "Solboard ${tag}"
+            echo
+            if [ -n "$prev" ]; then
+              echo "### Changes since ${prev}"
+              echo
+              git log --no-merges --pretty='- %s (`%h`)' "${prev}..HEAD"
+            else
+              echo "First release of this fork."
+            fi
+            echo
+            echo "---"
+            echo
+            echo "Source for this build: https://github.com/${GITHUB_REPOSITORY}/tree/${tag}"
+            echo
+            echo "Licence: GNU GPL v3.0 (see LICENSE). Solboard is a fork of HeliBoard."
+            echo
+            echo "The APK is signed; updating over a previous Solboard build works. It will"
+            echo "not update over HeliBoard itself, which is signed with a different key."
+          } > notes.md
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" dist/* --clobber
           else
