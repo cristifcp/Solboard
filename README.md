@@ -13,9 +13,9 @@ not an addition.
 
 Grab the APK from the [latest release](https://github.com/cristifcp/HeliBoard/releases/latest).
 
-- It installs **alongside** HeliBoard and most other keyboards.
-- It will **not** install over HeliBoard: different signing key. Uninstall
-  HeliBoard first if you want Solboard in that slot.
+- Installs alongside most other keyboards.
+- Coming from HeliBoard? Uninstall it first — Android only updates an app signed
+  with the same key.
 - Requires Android 5.0 or newer.
 
 To get updates without the keyboard checking the network (which it cannot do),
@@ -29,10 +29,6 @@ Identity, four extra keyboard themes, a default night theme, a launcher icon,
 and about a dozen small behavioural fixes — including clipboard history now
 stopping while incognito is active. Every deliberate difference, with the file
 for each, is listed in [MODIFICATIONS.md](MODIFICATIONS.md).
-
-What it does **not** do: cloud AI, web search, GIF search, accounts, telemetry,
-or an update checker. Those need a network, or they need a permission this
-keyboard does not have.
 
 ## Install
 
