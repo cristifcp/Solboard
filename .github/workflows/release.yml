@@ -1,0 +1,81 @@
+name: Release
+
+# Publishing happens only here: a tag becomes a GitHub Release with a signed
+# APK. Nothing is uploaded to Play or F-Droid.
+#
+# GPLv3: every release must be accompanied by the source it was built from.
+# GitHub attaches the source tarball for the tag automatically, and the notes
+# name the exact commit, so that obligation is met by construction.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Decode the signing keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "KEYSTORE_BASE64 secret is not set" >&2
+            exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/solboard.jks"
+
+      - name: Build the signed release
+        env:
+          RELEASE_STORE_FILE: ${{ runner.temp }}/solboard.jks
+          RELEASE_STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Check the artifact is signed
+        run: |
+          set -euo pipefail
+          apk=$(find app/build/outputs/apk/release -name '*.apk' | head -n 1)
+          test -n "$apk" || { echo "no release APK produced" >&2; exit 1; }
+          bt=$(find "$ANDROID_HOME/build-tools" -maxdepth 1 -mindepth 1 -type d | sort -V | tail -n 1)
+          "$bt/apksigner" verify --print-certs "$apk"
+          mkdir -p dist
+          cp "$apk" dist/
+          (cd dist && sha256sum ./*.apk > SHA256SUMS.txt)
+          echo "APK=$apk" >> "$GITHUB_ENV"
+
+      - name: Publish the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+          # GPLv3: the release notes point at the source for this exact build.
+          cat > notes.md <<EOF
+          Solboard ${tag}
+
+          Source for this build: https://github.com/${GITHUB_REPOSITORY}/tree/${tag}
+          Licence: GNU GPL v3.0 (see LICENSE). Solboard is a fork of HeliBoard.
+
+          The APK is signed; updating over a previous Solboard build works. It will
+          not update over HeliBoard itself, which is signed with a different key.
+          EOF
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" dist/* --clobber
+          else
+            gh release create "$tag" dist/* --title "Solboard ${tag}" --notes-file notes.md
+          fi

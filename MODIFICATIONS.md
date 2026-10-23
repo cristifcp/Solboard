@@ -55,3 +55,22 @@ store listing), GPLv3 requires the complete corresponding source for that exact
 build to be made available. Keep the source for every published version
 reachable — a public repository with tags is enough — and do not add
 dependencies whose licences are incompatible with GPLv3.
+
+This fork publishes only to GitHub Releases. `.github/workflows/release.yml`
+turns a `v*` tag into a signed APK attached to a release whose notes name the
+tag, and GitHub attaches the source tarball for that tag automatically — which
+is the obligation, satisfied by construction.
+
+### Signing
+
+The release keystore is **not** in this repository:
+
+- locally: `keystore.properties` at the repository root (git-ignored), or the
+  `RELEASE_STORE_FILE` / `RELEASE_STORE_PASSWORD` / `RELEASE_KEY_ALIAS` /
+  `RELEASE_KEY_PASSWORD` environment variables;
+- in CI: the `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS` and
+  `KEY_PASSWORD` repository secrets.
+
+Losing the keystore means a new application identity: existing installs can no
+longer be updated, only replaced by uninstalling first. Back it up somewhere
+that is not this repository.

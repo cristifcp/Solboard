@@ -1,4 +1,5 @@
 import com.android.build.api.variant.ApplicationVariant
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -6,8 +7,44 @@ plugins {
     kotlin("plugin.compose") version "2.4.0"
 }
 
+/**
+ * Release signing material, from `keystore.properties` at the repository root
+ * (git-ignored) or from the environment, so CI can sign without the file ever
+ * entering history. Absent both, release builds stay unsigned, which is what
+ * upstream expects and what F-Droid builds against.
+ */
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
+fun signingValue(key: String, env: String): String? =
+    keystoreProperties.getProperty(key) ?: System.getenv(env)
+
+val releaseStorePath = signingValue("storeFile", "RELEASE_STORE_FILE")
+val releaseStorePassword = signingValue("storePassword", "RELEASE_STORE_PASSWORD")
+val releaseKeyAlias = signingValue("keyAlias", "RELEASE_KEY_ALIAS")
+val releaseKeyPassword = signingValue("keyPassword", "RELEASE_KEY_PASSWORD")
+val hasReleaseKeystore =
+    releaseStorePath != null && releaseStorePassword != null &&
+        releaseKeyAlias != null && releaseKeyPassword != null &&
+        rootProject.file(releaseStorePath).exists()
+
 android {
     compileSdk = 37
+
+    signingConfigs {
+        if (hasReleaseKeystore) {
+            create("release") {
+                storeFile = rootProject.file(releaseStorePath!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+                enableV1Signing = true
+                enableV2Signing = true
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.cristifcp.keyboard"
@@ -28,12 +65,14 @@ android {
             isShrinkResources = false
             isDebuggable = false
             isJniDebuggable = false
+            if (hasReleaseKeystore) signingConfig = signingConfigs.getByName("release")
         }
         create("nouserlib") { // same as release, but does not allow the user to provide a library
             isMinifyEnabled = true
             isShrinkResources = false
             isDebuggable = false
             isJniDebuggable = false
+            if (hasReleaseKeystore) signingConfig = signingConfigs.getByName("release")
         }
         debug {
             // "normal" debug has minify for smaller APK to fit the GitHub 25 MB limit when zipped
