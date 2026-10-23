@@ -88,7 +88,6 @@ jobs:
             echo "Licence: GNU GPL v3.0 (see LICENSE). Solboard is a fork of HeliBoard."
             echo
             echo "The APK is signed, so it updates over any previous Solboard build."
-            echo "Coming from HeliBoard? Uninstall it first."
           } > notes.md
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" dist/* --clobber
