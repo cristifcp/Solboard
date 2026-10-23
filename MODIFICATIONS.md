@@ -59,6 +59,23 @@ New and updated translations arrive with the upstream name in them. Re-run:
 
 Lines containing a URL are skipped, so attribution links survive.
 
+## Two traps worth remembering
+
+**`translatable="false"` does not beat an existing translation.** Marking a
+string untranslatable stops translators and satisfies lint, but the `values-xx`
+entry is still compiled and still wins at runtime. To pin a string to English,
+give it a key the translations do not know — that is why the wiki row is
+`about_wiki_link_upstream` rather than the original key.
+
+**An adaptive icon's safe zone is a circle, not a square.** It is 66% of the
+canvas in diameter, so a square mark has to be the square inscribed in it
+(~46%), or a launcher's mask clips its corners. The first wire-keyboard build
+used 58% and lost its top row on Samsung's squircle.
+
+**A shallow git clone reports one commit.** The version name carries the commit
+count, so `actions/checkout` has to run with `fetch-depth: 0`; without it every
+CI build calls itself build 1.
+
 ## Distribution
 
 If a build of Solboard is distributed (an APK given to anyone, a release page, a

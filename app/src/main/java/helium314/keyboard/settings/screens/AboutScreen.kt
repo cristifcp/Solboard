@@ -103,7 +103,6 @@ fun createAboutSettings(context: Context) = listOf(
             description = stringResource(
                 R.string.version_text_build,
                 BuildConfig.VERSION_NAME,
-                BuildConfig.SOLBOARD_BUILD,
                 BuildConfig.SOLBOARD_COMMIT,
             ),
             onClick = {
@@ -155,7 +154,7 @@ fun createAboutSettings(context: Context) = listOf(
             icon = R.drawable.ic_settings_about_hidden_features
         )
     },
-    Setting(context, SettingsWithoutKey.GITHUB_WIKI, R.string.about_wiki_link, R.string.about_wiki_link_description) {
+    Setting(context, SettingsWithoutKey.GITHUB_WIKI, R.string.about_wiki_link_upstream, R.string.about_wiki_link_description_upstream) {
         val ctx = LocalContext.current
         Preference(
             name = it.title,
