@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.heightIn
@@ -217,7 +218,7 @@ private fun ColorItemRow(onDismissRequest: () -> Unit, item: String, isSelected:
                 prefs.edit {putString(prefKey, item)}
                 KeyboardSwitcher.getInstance().setThemeNeedsReload()
             }
-            .padding(start = 6.dp)
+            .padding(start = 6.dp, end = 12.dp)
             .heightIn(min = 40.dp)
     ) {
         RadioButton(
@@ -284,6 +285,13 @@ private fun ThemeSwatches(themeName: String, isNight: Boolean) {
                     .size(12.dp)
                     .clip(CircleShape)
                     .background(Color(colors.get(slot)))
+                    // Near-black swatches vanish into the dialog background;
+                    // the hairline keeps the row readable for dark themes.
+                    .border(
+                        1.dp,
+                        MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f),
+                        CircleShape
+                    )
             )
         }
     }
