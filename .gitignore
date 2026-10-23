@@ -4,6 +4,13 @@
 .kotlin
 local.properties
 .DS_Store
+# Signing material must never enter history: it is not source, and a leaked key
+# cannot be rotated for existing installs.
+*.jks
+*.keystore
+*.p12
+keystore.properties
+release.properties
 Gemfile
 build
 app/build

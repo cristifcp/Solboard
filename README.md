@@ -1,3 +1,18 @@
+# Solboard
+
+**Solboard is a personal fork of [HeliBoard](https://github.com/HeliBorg/HeliBoard)**,
+which is itself based on AOSP / OpenBoard. It keeps HeliBoard's defining
+property — no `INTERNET` permission, so nothing can leave the device — and
+changes the identity and, over time, the defaults. See
+[MODIFICATIONS.md](MODIFICATIONS.md) for every deliberate difference.
+
+Licensed under the GNU General Public License v3.0, like the project it comes
+from. If you receive a build of Solboard from anyone, you are entitled to the
+source it was built from; the full licence is in [LICENSE](LICENSE).
+
+The text below is HeliBoard's own, kept for attribution and because it still
+describes almost everything this keyboard does.
+
 # HeliBoard
 HeliBoard is a privacy-conscious and customizable open-source keyboard, based on AOSP / OpenBoard.
 Does not use internet permission, and thus is 100% offline.
