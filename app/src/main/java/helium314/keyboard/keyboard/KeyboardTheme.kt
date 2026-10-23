@@ -65,12 +65,20 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         const val THEME_PINK = "pink"
         const val THEME_SAND = "sand"
         const val THEME_VIOLETTE = "violette"
+
+        /**
+         * Solboard's own theme: near-black keys, cyan labels, an amber suggestion
+         * strip and a magenta gesture trail. Deliberately not named after the
+         * game that inspired it - see MODIFICATIONS.md.
+         */
+        const val THEME_NEON_CHROME = "neon_chrome"
         fun getAvailableDefaultColors(prefs: SharedPreferences, isNight: Boolean) = listOfNotNull(
             if (!isNight) THEME_LIGHT else null, THEME_DARK,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) THEME_DYNAMIC else null,
             if (prefs.getString(Settings.PREF_THEME_STYLE, Defaults.PREF_THEME_STYLE) == STYLE_HOLO) THEME_HOLO_WHITE else null,
             THEME_DARKER,
             THEME_BLACK,
+            THEME_NEON_CHROME,
             if (!isNight) THEME_BLUE_GRAY else null,
             if (!isNight) THEME_BROWN else null,
             THEME_CHOCOLATE,
@@ -174,6 +182,23 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
                     "#364248".toColorInt(),
                     ContextCompat.getColor(context, R.color.key_text_color_lxx_dark),
                     ContextCompat.getColor(context, R.color.key_hint_letter_color_lxx_dark),
+                    keyboardBackground = backgroundImage
+                )
+                // Solboard's cyberpunk preset: black keys, neon cyan labels, an
+                // amber suggestion strip and a magenta trail. Every value is
+                // explicit because a built-in bypasses the user-theme derivation.
+                THEME_NEON_CHROME -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    "#00E5FF".toColorInt(), // accent
+                    "#07070B".toColorInt(), // keyboard background
+                    "#15151F".toColorInt(), // key background
+                    "#0E0E16".toColorInt(), // functional keys
+                    "#15151F".toColorInt(), // space bar
+                    "#E9F7FF".toColorInt(), // key text
+                    "#79D6E8".toColorInt(), // key hints
+                    suggestionText = "#FCEE0A".toColorInt(),
+                    gesture = "#FF2E97".toColorInt(),
                     keyboardBackground = backgroundImage
                 )
                 THEME_HOLO_WHITE -> DefaultColors(
