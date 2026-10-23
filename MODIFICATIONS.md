@@ -18,6 +18,7 @@ Fork first published: 2026-10-23.
 | APK output name prefix | `app/build.gradle.kts` |
 | Settings/issue link points at this fork instead of upstream | `app/.../latin/common/Constants.kt` (`GITHUB`) |
 | Clipboard label for a copied theme | `app/.../settings/screens/ColorsScreen.kt` |
+| Launcher icon | `mipmap-*/ic_launcher*.png`, `mipmap-anydpi-v26/*.xml`, `drawable-*/ic_launcher_{foreground,monochrome}.png`, `drawable-v24/ic_launcher_background.xml` — a yellow glitch monogram on near-black, in adaptive, legacy and monochrome forms. The glyph is a font rendering rather than a vector path: an "S" traced by hand adds error, not sharpness. |
 | Content-provider authorities (`clipboard_provider_authority`, `gesture_data_provider_authority`) | `app/src/main/res/values/clip_provider.xml`, `.../gesture_data.xml`, and the `app/src/debug/res/values/` copies |
 
 The authorities deserve a note: they are plain strings carrying the upstream
