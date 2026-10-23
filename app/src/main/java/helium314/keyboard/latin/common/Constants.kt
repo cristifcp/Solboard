@@ -7,7 +7,7 @@ object Links {
     const val DICTIONARY_DOWNLOAD_SUFFIX = "/raw/branch/main/"
     const val DICTIONARY_NORMAL_SUFFIX = "dictionaries/"
     const val DICTIONARY_EMOJI_CLDR_SUFFIX = "emoji_cldr_signal_dictionaries/"
-    const val GITHUB = "https://github.com/cristifcp/HeliBoard"
+    const val GITHUB = "https://github.com/cristifcp/Solboard"
     const val MODIFICATIONS = "$GITHUB/blob/variant/MODIFICATIONS.md"
     const val LICENSE = "$GITHUB/blob/variant/LICENSE"
     // Documentation and the layout references stay upstream's: they describe the

@@ -11,7 +11,7 @@ not an addition.
 
 ## Download
 
-Grab the APK from the [latest release](https://github.com/cristifcp/HeliBoard/releases/latest).
+Grab the APK from the [latest release](https://github.com/cristifcp/Solboard/releases/latest).
 
 - Installs alongside most other keyboards.
 - Coming from HeliBoard? Uninstall it first — Android only updates an app signed
