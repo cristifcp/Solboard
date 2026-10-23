@@ -3,8 +3,10 @@ package helium314.keyboard.latin.utils
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,13 +18,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import helium314.keyboard.latin.R
 
 @Composable
 fun NextScreenIcon() {
     Icon(
         painterResource(R.drawable.ic_arrow_left), null,
-        if (LocalLayoutDirection.current == LayoutDirection.Ltr) Modifier.scale(-1f, 1f) else Modifier
+        modifier = Modifier
+            .size(20.dp)
+            .then(if (LocalLayoutDirection.current == LayoutDirection.Ltr) Modifier.scale(-1f, 1f) else Modifier),
+        // A full-strength chevron competes with the row's own text; navigation
+        // affordances should read as secondary.
+        tint = MaterialTheme.colorScheme.onSurfaceVariant
     )
 }
 
