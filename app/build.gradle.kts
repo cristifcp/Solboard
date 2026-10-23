@@ -50,7 +50,7 @@ android {
         applicationId = "com.cristifcp.keyboard"
         minSdk = 21
         targetSdk = 37
-        versionCode = 4300
+        versionCode = 4301
         versionName = "4.3-beta1"
         ndk {
             abiFilters.clear()
