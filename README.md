@@ -9,6 +9,9 @@ are opt-in" — the capability is absent from the manifest, so nothing can leave
 the device. That is the whole point of this fork, and it is upstream's design,
 not an addition.
 
+<img src="docs/screenshots/settings.png" width="300" alt="Solboard settings">
+<img src="docs/screenshots/themes.png" width="300" alt="Theme picker with colour previews">
+
 ## Download
 
 Grab the APK from the [latest release](https://github.com/cristifcp/Solboard/releases/latest).
